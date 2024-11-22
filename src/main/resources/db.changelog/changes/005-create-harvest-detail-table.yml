@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-create-harvest-detail
+      author: citrus
+      changes:
+        - createTable:
+            tableName: harvest_detail
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: harvest_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: tree_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantity
+                  type: double
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: harvest_id
+            baseTableName: harvest_detail
+            constraintName: fk_harvestdetail_harvest
+            referencedColumnNames: id
+            referencedTableName: harvest
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            baseColumnNames: tree_id
+            baseTableName: harvest_detail
+            constraintName: fk_harvestdetail_tree
+            referencedColumnNames: id
+            referencedTableName: tree
+            onDelete: CASCADE

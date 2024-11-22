@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-tree
+      author: citrus
+      changes:
+        - createTable:
+            tableName: tree
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: planting_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: field_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: field_id
+            baseTableName: tree
+            constraintName: fk_tree_field
+            referencedColumnNames: id
+            referencedTableName: field
+            onDelete: CASCADE

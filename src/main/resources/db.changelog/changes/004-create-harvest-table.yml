@@ -1,0 +1,30 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-create-harvest
+      author: citrus
+      changes:
+        - createTable:
+            tableName: harvest
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: season
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: harvest_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: total_quantity
+                  type: double
+                  constraints:
+                    nullable: false

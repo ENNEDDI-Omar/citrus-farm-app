@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-create-sale
+      author: citrus
+      changes:
+        - createTable:
+            tableName: sale
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: sale_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unit_price
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: client
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: harvest_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: harvest_id
+            baseTableName: sale
+            constraintName: fk_sale_harvest
+            referencedColumnNames: id
+            referencedTableName: harvest
+            onDelete: CASCADE

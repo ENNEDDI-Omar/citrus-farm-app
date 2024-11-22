@@ -1,1 +1,13 @@
 databaseChangeLog:
+  - include:
+      file: db.changelog/changes/001-create-farm-table.yml
+  - include:
+      file: db.changelog/changes/002-create-field-table.yml
+  - include:
+      file: db.changelog/changes/003-create-tree-table.yml
+  - include:
+      file: db.changelog/changes/004-create-harvest-table.yml
+  - include:
+      file: db.changelog/changes/005-create-harvest-detail-table.yml
+  - include:
+      file: db.changelog/changes/006-create-sale-table.yml
