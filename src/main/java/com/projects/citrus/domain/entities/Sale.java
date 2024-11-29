@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "sales")
 public class Sale {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +26,9 @@ public class Sale {
     @ManyToOne
     @JoinColumn(name = "harvest_id")
     private Harvest harvest;
+
+    public double calculateRevenue()
+    {
+        return unitPrice * harvest.getTotalQuantity();
+    }
 }

@@ -16,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "harvests")
 public class Harvest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,4 +32,14 @@ public class Harvest {
 
     @OneToMany(mappedBy = "harvest", cascade = CascadeType.ALL)
     private List<Sale> sales = new ArrayList<>();
+
+    public void calculateTotalQuantity() {
+        this.totalQuantity = harvestDetails.stream()
+                .mapToDouble(HarvestDetail::getQuantity)
+                .sum();
+    }
+
+    public boolean isSold() {
+        return sales != null;
+    }
 }

@@ -11,3 +11,5 @@ databaseChangeLog:
       file: db.changelog/changes/005-create-harvest-detail-table.yml
   - include:
       file: db.changelog/changes/006-create-sale-table.yml
+  - include:
+      file: db.changelog/changes/007-modify-harvest-detail-relations.yml

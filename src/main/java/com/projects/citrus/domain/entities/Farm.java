@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "farms")
 public class Farm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +26,14 @@ public class Farm {
     private Double area;
     private LocalDate creationDate;
 
-    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Field> fields = new ArrayList<>();
+
+    public double calculateLeftArea() {
+        double currentTotalArea = fields.stream()
+                .mapToDouble(Field::getArea)
+                .sum();
+
+        return this.area - currentTotalArea;
+    }
 }

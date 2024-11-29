@@ -4,7 +4,7 @@ databaseChangeLog:
       author: citrus
       changes:
         - createTable:
-            tableName: field
+            tableName: fields
             columns:
               - column:
                   name: id
@@ -31,8 +31,8 @@ databaseChangeLog:
                     nullable: false
         - addForeignKeyConstraint:
             baseColumnNames: farm_id
-            baseTableName: field
+            baseTableName: fields
             constraintName: fk_field_farm
             referencedColumnNames: id
-            referencedTableName: farm
+            referencedTableName: farms
             onDelete: CASCADE

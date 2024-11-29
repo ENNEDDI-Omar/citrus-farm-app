@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "trees")
 public class Tree {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +39,6 @@ public class Tree {
         if (age < 3) return 2.5;
         if (age <= 10) return 12.0;
         if (age <= 20) return 20.0;
-        return 0.0; // Non productif après 20 ans
+        return 0.0;
     }
 }

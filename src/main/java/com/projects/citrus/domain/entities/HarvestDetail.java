@@ -11,6 +11,12 @@ import lombok.Builder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "harvest_details" , uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_harvest_detail_tree_harvest",
+                columnNames = {"harvest_id", "tree_id"}
+        )
+})
 public class HarvestDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

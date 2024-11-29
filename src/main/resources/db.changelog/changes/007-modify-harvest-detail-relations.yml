@@ -1,8 +1,14 @@
+
 databaseChangeLog:
   - changeSet:
-      id: 005-create-harvest-detail
+      id: 007-modify-harvest-detail-relations
       author: citrus
       changes:
+        - dropTable:
+            tableName: harvest_details
+            cascadeConstraints: true
+
+
         - createTable:
             tableName: harvest_details
             columns:
@@ -28,6 +34,8 @@ databaseChangeLog:
                   type: double
                   constraints:
                     nullable: false
+
+        # Ajout des contraintes de clé étrangère
         - addForeignKeyConstraint:
             baseColumnNames: harvest_id
             baseTableName: harvest_details
@@ -35,6 +43,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: harvests
             onDelete: CASCADE
+
         - addForeignKeyConstraint:
             baseColumnNames: tree_id
             baseTableName: harvest_details
@@ -42,3 +51,8 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: trees
             onDelete: CASCADE
+
+        - addUniqueConstraint:
+            tableName: harvest_details
+            columnNames: harvest_id, tree_id
+            constraintName: uk_harvest_detail_tree_harvest

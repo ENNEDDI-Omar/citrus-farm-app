@@ -4,7 +4,7 @@ databaseChangeLog:
       author: citrus
       changes:
         - createTable:
-            tableName: harvest
+            tableName: harvests
             columns:
               - column:
                   name: id
