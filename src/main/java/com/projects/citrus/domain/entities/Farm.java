@@ -30,6 +30,9 @@ public class Farm {
     private List<Field> fields = new ArrayList<>();
 
     public double calculateLeftArea() {
+        if (fields == null) {
+            return this.area;
+        }
         double currentTotalArea = fields.stream()
                 .mapToDouble(Field::getArea)
                 .sum();

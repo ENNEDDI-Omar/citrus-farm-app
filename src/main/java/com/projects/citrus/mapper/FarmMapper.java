@@ -15,7 +15,7 @@ public interface FarmMapper {
     @Mapping(target = "creationDate", expression = "java(LocalDate.now())")
     Farm toEntity(FarmRequest request);
 
-    //@Mapping(target = "remainingArea", expression = "java(farm.calculateLeftArea())")
+    @Mapping(target = "remainingArea", expression = "java(farm.calculateLeftArea())")
     FarmResponse toResponse(Farm farm);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
