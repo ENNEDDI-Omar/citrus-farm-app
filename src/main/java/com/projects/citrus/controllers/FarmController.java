@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/farms")
@@ -60,9 +62,12 @@ public class FarmController {
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a farm")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable Long id) {
         farmService.delete(id);
-        return ResponseEntity.noContent().build();
+
+        Map<String, String> response = new HashMap<>();
+                response.put("message", "Farm deleted successfully with ID: " + id);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/by-min-area/{minArea}")

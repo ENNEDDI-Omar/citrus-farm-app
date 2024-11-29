@@ -55,10 +55,10 @@ public class FarmServiceImpl implements IFarmService {
 
     @Override
     public void delete(Long id) {
-        if (!farmRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Farm not found with id: " + id);
-        }
-        farmRepository.deleteById(id);
+        Farm farm = farmRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Farm not found with id: " + id));
+
+        farmRepository.delete(farm);
     }
 
     @Override
