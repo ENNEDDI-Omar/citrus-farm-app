@@ -15,7 +15,9 @@ public interface FieldMapper {
     Field toEntity(FieldRequest request);
 
     @Mapping(target = "maxTreeCapacity", expression = "java(ValidationUtil.getMaxTreeCapacityForField(field.getArea()))")
-    @Mapping(target = "currentTreeCount", expression = "java(field.getTrees().size())")
+    @Mapping(target = "currentTreeCount", expression = "java(field.getTrees() != null ? field.getTrees().size() : 0)")
+    @Mapping(target = "farmId", source = "farm.id")
+    @Mapping(target = "farmName", source = "farm.name")
     FieldResponse toResponse(Field field);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

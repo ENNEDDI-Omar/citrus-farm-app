@@ -13,4 +13,6 @@ public class FieldResponse {
     private List<TreeResponse> trees;
     private int maxTreeCapacity;
     private int currentTreeCount;
+    private int farmId;
+    private String farmName;
 }

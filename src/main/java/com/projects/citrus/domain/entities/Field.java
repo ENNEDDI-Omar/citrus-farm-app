@@ -24,13 +24,12 @@ public class Field {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @NotNull
     private Double area;
 
     @ManyToOne
     @JoinColumn(name = "farm_id")
     private Farm farm;
 
-    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tree> trees = new ArrayList<>();
 }

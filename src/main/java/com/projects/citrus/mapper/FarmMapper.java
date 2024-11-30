@@ -6,6 +6,7 @@ import com.projects.citrus.dto.responses.FarmResponse;
 import org.mapstruct.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 @Mapper(componentModel = "spring", uses = {FieldMapper.class}, imports = {LocalDate.class})
 public interface FarmMapper {

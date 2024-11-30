@@ -4,6 +4,7 @@ import com.projects.citrus.domain.entities.*;
 import com.projects.citrus.domain.enums.Season;
 import com.projects.citrus.exceptions.BusinessException;
 import com.projects.citrus.exceptions.ValidationException;
+import com.projects.citrus.repositories.FieldRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -26,6 +27,13 @@ public class ValidationUtil {
         }
     }
 
+    // Field validations
+    public static void validateFieldName(String name, FieldRepository fieldRepository) {
+        if (fieldRepository.existsByName(name)) {
+            throw new ValidationException("Field with name " + name + " already exists");
+        }
+    }
+
     public static void validateFieldForFarm(Farm farm, Field field) {
         // Vérification de la taille minimale du champ
         if (field.getArea() < MIN_FIELD_AREA) {
@@ -33,6 +41,7 @@ public class ValidationUtil {
                     String.format("Field area must be at least %.1f hectares", MIN_FIELD_AREA)
             );
         }
+
 
         // Vérification du ratio champ/ferme
         if (field.getArea() > (farm.getArea() * MAX_FIELD_RATIO)) {
@@ -67,6 +76,24 @@ public class ValidationUtil {
             throw new ValidationException(
                     String.format("Cannot add more trees. Maximum capacity is %d trees", maxTrees)
             );
+        }
+    }
+
+    public static void validateFieldAreaUpdate(Field field, Double newArea) {
+        int currentTreeCount = field.getTrees().size();
+        int maxTreesForNewArea = getMaxTreeCapacityForField(newArea);
+
+        if (currentTreeCount > maxTreesForNewArea) {
+            throw new ValidationException(
+                    String.format("Cannot reduce field area: current tree count (%d) exceeds maximum capacity (%d) for new area",
+                            currentTreeCount, maxTreesForNewArea)
+            );
+        }
+    }
+
+    public static void validateFieldNameUpdate(String newName, Long fieldId, FieldRepository fieldRepository) {
+        if (fieldRepository.findByNameAndIdNot(newName, fieldId).isPresent()) {
+            throw new ValidationException("Field name already exists: " + newName + "please choose another name to update field name");
         }
     }
 
