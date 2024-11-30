@@ -134,7 +134,7 @@ public class ValidationUtil {
         }
     }
 
-    // Helper methods
+
     public static boolean isTreeProductiveAge(Tree tree) {
         return tree.getAge() <= MAX_TREE_AGE;
     }

@@ -8,8 +8,9 @@ import java.util.List;
 @Builder
 public class FieldResponse {
     private Long id;
+    private String name;
     private Double area;
+    private List<TreeResponse> trees;
     private int maxTreeCapacity;
     private int currentTreeCount;
-    private List<TreeResponse> trees;
 }
