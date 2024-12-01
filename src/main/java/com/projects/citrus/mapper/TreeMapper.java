@@ -17,6 +17,8 @@ public interface TreeMapper {
     @Mapping(target = "age", expression = "java(tree.getAge())")
     @Mapping(target = "productivity", expression = "java(tree.getProductivity())")
     @Mapping(target = "isProductiveAge", expression = "java(ValidationUtil.isTreeProductiveAge(tree))")
+    @Mapping(target = "fieldId", source = "field.id")
+    @Mapping(target = "fieldName", source = "field.name")
     TreeResponse toResponse(Tree tree);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)

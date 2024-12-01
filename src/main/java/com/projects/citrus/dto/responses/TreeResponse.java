@@ -12,4 +12,6 @@ public class TreeResponse {
     private int age;
     private double productivity;
     private boolean isProductiveAge;
+    private Long fieldId;
+    private String fieldName;
 }

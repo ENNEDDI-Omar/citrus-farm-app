@@ -1,5 +1,7 @@
 package com.projects.citrus.dto.requests;
 
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
 import lombok.Data;
 import lombok.Builder;
 import jakarta.validation.constraints.NotNull;
