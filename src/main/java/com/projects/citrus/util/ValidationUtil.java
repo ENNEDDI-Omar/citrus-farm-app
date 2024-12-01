@@ -2,6 +2,7 @@ package com.projects.citrus.util;
 
 import com.projects.citrus.domain.entities.*;
 import com.projects.citrus.domain.enums.Season;
+import com.projects.citrus.dto.requests.HarvestRequest;
 import com.projects.citrus.exceptions.BusinessException;
 import com.projects.citrus.exceptions.ValidationException;
 import com.projects.citrus.repositories.FieldRepository;
@@ -143,6 +144,27 @@ public class ValidationUtil {
             throw new ValidationException(
                     "Harvest date does not match the specified season"
             );
+        }
+    }
+    // Pour validateHarvestUpdateWithDetails
+    public static void validateHarvestUpdateWithDetails(Harvest harvest, HarvestRequest request) {
+        // Ne pas permettre de changer la date/saison si la récolte a des détails
+        if (!harvest.getHarvestDate().equals(request.getHarvestDate()) ||
+                !harvest.getSeason().equals(request.getSeason())) {
+            throw new BusinessException(
+                    "Cannot change harvest date or season when harvest details exist"
+            );
+        }
+    }
+
+    // Pour validateDateRange
+    public static void validateDateRange(LocalDate startDate, LocalDate endDate) {
+        if (startDate == null || endDate == null) {
+            throw new ValidationException("Start date and end date must not be null");
+        }
+
+        if (startDate.isAfter(endDate)) {
+            throw new ValidationException("Start date must be before end date");
         }
     }
 
