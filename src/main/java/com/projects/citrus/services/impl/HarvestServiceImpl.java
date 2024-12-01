@@ -58,6 +58,12 @@ public class HarvestServiceImpl implements IHarvestService {
         Harvest existingHarvest = harvestRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Harvest not found with id: " + id));
 
+        // Valider la saison avec la date
+        ValidationUtil.validateHarvestDate(Harvest.builder()
+                .season(request.getSeason())
+                .harvestDate(request.getHarvestDate())
+                .build());
+
         // Vérifier si la récolte a déjà des détails
         if (!existingHarvest.getHarvestDetails().isEmpty()) {
             ValidationUtil.validateHarvestUpdateWithDetails(existingHarvest, request);

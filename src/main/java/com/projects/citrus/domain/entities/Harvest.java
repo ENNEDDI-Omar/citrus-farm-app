@@ -40,6 +40,6 @@ public class Harvest {
     }
 
     public boolean isSold() {
-        return sales != null;
+        return sales != null && !sales.isEmpty();
     }
 }
