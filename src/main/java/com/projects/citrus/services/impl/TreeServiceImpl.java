@@ -5,6 +5,7 @@ import com.projects.citrus.domain.entities.Tree;
 import com.projects.citrus.dto.requests.TreeRequest;
 import com.projects.citrus.dto.responses.TreeResponse;
 import com.projects.citrus.exceptions.ResourceNotFoundException;
+import com.projects.citrus.exceptions.ValidationException;
 import com.projects.citrus.services.interfaces.ITreeService;
 import com.projects.citrus.repositories.FieldRepository;
 import com.projects.citrus.repositories.TreeRepository;
@@ -31,7 +32,12 @@ public class TreeServiceImpl implements ITreeService {
         ValidationUtil.validatePlantingDate(request.getPlantingDate());
 
         long currentTreeCount = treeRepository.countByFieldId(field.getId());
-        ValidationUtil.validateTreeAddition(field, (int)currentTreeCount + 1);
+        if (currentTreeCount >= ValidationUtil.getMaxTreeCapacityForField(field.getArea())) {
+            throw new ValidationException(
+                    String.format("Field has reached its maximum capacity of %d trees",
+                            ValidationUtil.getMaxTreeCapacityForField(field.getArea()))
+            );
+        }
 
         Tree tree = treeMapper.toEntity(request);
         tree.setField(field);
