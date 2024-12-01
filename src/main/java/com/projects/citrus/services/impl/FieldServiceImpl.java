@@ -46,17 +46,15 @@ public class FieldServiceImpl implements IFieldService
         Field existingField = fieldRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Field not found with id: " + id));
 
-        // Validate field name if it changed
+
         if (!existingField.getName().equals(request.getName())) {
             ValidationUtil.validateFieldNameUpdate(request.getName(), id, fieldRepository);
         }
 
-        // Validate area if it changed
         if (!existingField.getArea().equals(request.getArea())) {
             ValidationUtil.validateFieldAreaUpdate(existingField, request.getArea());
         }
 
-        // Handle farm change if needed
         if (!existingField.getFarm().getId().equals(request.getFarmId())) {
             Farm newFarm = farmRepository.findById(request.getFarmId())
                     .orElseThrow(() -> new ResourceNotFoundException("Farm not found with id: " + request.getFarmId()));
@@ -70,7 +68,6 @@ public class FieldServiceImpl implements IFieldService
             existingField.setFarm(newFarm);
         }
 
-        // Update and save
         fieldMapper.updateFieldFromRequest(request, existingField);
         return fieldMapper.toResponse(fieldRepository.save(existingField));
     }
