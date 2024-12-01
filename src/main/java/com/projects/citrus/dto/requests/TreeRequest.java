@@ -9,8 +9,10 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-public class TreeRequest {
+public class TreeRequest
+{
     @NotNull(message = "Planting date is required")
+    @FutureOrPresent(message = "Planting date cannot be in the past")
     private LocalDate plantingDate;
 
     @NotNull(message = "Field ID is required")

@@ -103,11 +103,20 @@ public class ValidationUtil {
             throw new ValidationException("Planting date cannot be null");
         }
 
+        if (plantingDate.isBefore(LocalDate.now())) {
+            throw new ValidationException("Planting date cannot be in the past");
+        }
+
         int month = plantingDate.getMonthValue();
         if (month < PLANTING_START_MONTH || month > PLANTING_END_MONTH) {
             throw new ValidationException(
                     "Trees can only be planted between March and May"
             );
+        }
+
+        int currentYear = LocalDate.now().getYear();
+        if (plantingDate.getYear() < currentYear) {
+            throw new ValidationException("Planting date year cannot be in the past");
         }
     }
 

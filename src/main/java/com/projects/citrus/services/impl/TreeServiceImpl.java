@@ -24,17 +24,15 @@ public class TreeServiceImpl implements ITreeService {
 
     @Override
     public TreeResponse create(TreeRequest request) {
-        // Validation du champ (Field)
+
         Field field = fieldRepository.findById(request.getFieldId())
                 .orElseThrow(() -> new ResourceNotFoundException("Field not found with id: " + request.getFieldId()));
 
-        // Validation de la date de plantation
         ValidationUtil.validatePlantingDate(request.getPlantingDate());
 
-        // Vérifier si le champ peut accueillir plus d'arbres
-        ValidationUtil.validateTreeAddition(field, 1);
+        long currentTreeCount = treeRepository.countByFieldId(field.getId());
+        ValidationUtil.validateTreeAddition(field, (int)currentTreeCount + 1);
 
-        // Création de l'arbre
         Tree tree = treeMapper.toEntity(request);
         tree.setField(field);
 
@@ -43,21 +41,22 @@ public class TreeServiceImpl implements ITreeService {
 
     @Override
     public TreeResponse update(Long id, TreeRequest request) {
-        // Récupérer l'arbre existant
+
         Tree existingTree = treeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Tree not found with id: " + id));
 
-        // Si changement de champ
+
         if (!existingTree.getField().getId().equals(request.getFieldId())) {
             Field newField = fieldRepository.findById(request.getFieldId())
                     .orElseThrow(() -> new ResourceNotFoundException("Field not found with id: " + request.getFieldId()));
 
-            // Vérifier si le nouveau champ peut accueillir l'arbre
-            ValidationUtil.validateTreeAddition(newField, 1);
+
+            long currentTreeCount = treeRepository.countByFieldId(newField.getId());
+            ValidationUtil.validateTreeAddition(newField, (int)currentTreeCount + 1);
+
             existingTree.setField(newField);
         }
 
-        // Si changement de date de plantation
         if (request.getPlantingDate() != null && !request.getPlantingDate().equals(existingTree.getPlantingDate())) {
             ValidationUtil.validatePlantingDate(request.getPlantingDate());
         }
@@ -66,28 +65,42 @@ public class TreeServiceImpl implements ITreeService {
         return treeMapper.toResponse(treeRepository.save(existingTree));
     }
 
-    @Override
     public TreeResponse getById(Long id) {
-        return null;
+        return treeRepository.findById(id)
+                .map(treeMapper::toResponse)
+                .orElseThrow(() -> new ResourceNotFoundException("Tree not found with id: " + id));
     }
 
     @Override
     public List<TreeResponse> getAll() {
-        return List.of();
+        return treeRepository.findAll().stream()
+                .map(treeMapper::toResponse)
+                .toList();
     }
 
     @Override
     public List<TreeResponse> getByFieldId(Long fieldId) {
-        return List.of();
+        if (!fieldRepository.existsById(fieldId)) {
+            throw new ResourceNotFoundException("Field not found with id: " + fieldId);
+        }
+        return treeRepository.findByFieldId(fieldId).stream()
+                .map(treeMapper::toResponse)
+                .toList();
     }
 
     @Override
     public long getTreeCountInField(Long fieldId) {
-        return 0;
+        if (!fieldRepository.existsById(fieldId)) {
+            throw new ResourceNotFoundException("Field not found with id: " + fieldId);
+        }
+        return treeRepository.countByFieldId(fieldId);
     }
 
     @Override
     public void delete(Long id) {
-
+        if (!treeRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Tree not found with id: " + id);
+        }
+        treeRepository.deleteById(id);
     }
 }

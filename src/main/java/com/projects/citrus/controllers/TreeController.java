@@ -36,7 +36,7 @@ public class TreeController {
     public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody TreeRequest request) {
         TreeResponse tree = treeService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(getResponseWithMessage(tree, "Tree created successfully"));
+                .body(getResponseWithMessage(tree, "Tree planted successfully"));
     }
 
     @GetMapping("/{id}")

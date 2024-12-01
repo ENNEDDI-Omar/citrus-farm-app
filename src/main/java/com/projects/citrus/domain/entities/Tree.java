@@ -31,7 +31,14 @@ public class Tree {
     private List<HarvestDetail> harvestDetails = new ArrayList<>();
 
     public int getAge() {
-        return LocalDate.now().getYear() - plantingDate.getYear();
+        LocalDate now = LocalDate.now();
+        LocalDate plantDate = getPlantingDate();
+
+        if (plantDate.isAfter(now)) {
+            return 0;
+        }
+
+        return now.getYear() - plantDate.getYear();
     }
 
     public double getProductivity() {
